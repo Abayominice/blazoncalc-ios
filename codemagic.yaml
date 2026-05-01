@@ -1,0 +1,18 @@
+workflows:
+  ios-workflow:
+    name: Build BlazonCalc
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.blazonshots.calculator
+    scripts:
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: xcode-project build-ipa --project "BlazonCalc.xcodeproj" --scheme "BlazonCalc"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
